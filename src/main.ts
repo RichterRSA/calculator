@@ -5,7 +5,6 @@ import {
   MinusToken,
   MultiplyToken,
   NumberToken,
-  OperatorToken,
   PlusToken,
   PowerToken,
   RParenToken,
