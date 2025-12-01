@@ -84,8 +84,30 @@ function update_display() {
     text += token_list[i].toString();
   }
   text += input;
+  if (text.length === 0) text = "0";
   if (display) {
-    display.textContent = text;
+    display.innerText = text;
+  }
+}
+
+function enter_clear() {
+  input = "";
+  token_list = [];
+  update_display();
+}
+
+function enter_back() {
+  if (input.length > 0) {
+    input = input.slice(0, -1);
+    update_display();
+  } else {
+    var last = token_list[token_list.length - 1];
+    if (last instanceof NumberToken) {
+      input = last.value.toString();
+      input = input.slice(0, -1);
+    }
+    token_list.pop();
+    update_display();
   }
 }
 
@@ -93,3 +115,5 @@ function update_display() {
 (window as any).enter_number = enter_number;
 (window as any).enter_operator = enter_operator;
 (window as any).enter_equals = enter_equals;
+(window as any).enter_clear = enter_clear;
+(window as any).enter_back = enter_back;

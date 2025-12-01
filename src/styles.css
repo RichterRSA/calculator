@@ -17,6 +17,14 @@
     padding: 0.8rem 0;
 }
 
+#calculator .clear {
+    color: white;
+    text-align: center;
+    background-color: red;
+    margin: 0;
+    user-select: none;
+}
+
 #calculator .equals {
     color: white;
     text-align: center;

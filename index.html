@@ -8,7 +8,7 @@
     </head>
     <body>
         <script type="module" src="./src/main.ts"></script>
-        <h1 id="display">0.00</h1>
+        <h1 id="display">0</h1>
         <section id="calculator">
             <p class="calculator-button" onclick="enter_operator('(')">(</p>
             <p class="calculator-button" onclick="enter_operator(')')">)</p>
@@ -28,6 +28,8 @@
             <p class="calculator-button" onclick="enter_operator('+')">+</p>
             <p class="calculator-button" onclick="enter_number('0')">0</p>
             <p class="calculator-button" onclick="enter_number('.')">.</p>
+            <p class="calculator-button clear" onclick="enter_clear()">C</p>
+            <p class="calculator-button clear" onclick="enter_back()"><-</p>
             <p class="calculator-button equals" onclick="enter_equals()">=</p>
         </section>
     </body>
