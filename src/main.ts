@@ -21,6 +21,17 @@ function enter_number(key: string) {
 }
 
 function enter_operator(key: string) {
+  // Special handling for minus sign - check if it's unary (negative) or binary (subtraction)
+  if (key === "-") {
+    const isUnary = isUnaryMinus();
+    if (isUnary) {
+      // Treat as negative sign, add to input
+      input += "-";
+      update_display();
+      return;
+    }
+  }
+
   // if there is a number still in the input, add it
   // to the stack
   cleanInput();
@@ -53,6 +64,34 @@ function enter_operator(key: string) {
   update_display();
 }
 
+function isUnaryMinus(): boolean {
+  // Minus is unary if:
+  // 1. At the start (no tokens and no input)
+  // 2. After an operator (except right paren)
+  // 3. After a left paren
+  // 4. Currently typing a number and input is empty or only has minus signs
+
+  // If we're already typing a number, it's not unary
+  if (input.length > 0) {
+    return false;
+  }
+
+  // No tokens yet - it's unary (start of expression)
+  if (token_list.length === 0) {
+    return true;
+  }
+
+  const lastToken = token_list[token_list.length - 1];
+
+  // After a number or right paren, it's binary subtraction
+  if (lastToken instanceof NumberToken || lastToken instanceof RParenToken) {
+    return false;
+  }
+
+  // After any other operator or left paren, it's unary
+  return true;
+}
+
 function cleanInput() {
   if (input.length > 0) {
     let value = parseFloat(input);
@@ -73,7 +112,7 @@ function enter_equals() {
   console.log("Result:", result);
 
   // Reset token list for next calculation
-  token_list = [new NumberToken(result)];
+  input = result.toString();
   update_display();
 }
 
@@ -103,8 +142,12 @@ function enter_back() {
   } else {
     var last = token_list[token_list.length - 1];
     if (last instanceof NumberToken) {
-      input = last.value.toString();
-      input = input.slice(0, -1);
+      if (isNaN(last.value)) {
+        input = "";
+      } else {
+        input = last.value.toString();
+        input = input.slice(0, -1);
+      }
     }
     token_list.pop();
     update_display();
