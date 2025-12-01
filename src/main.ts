@@ -111,6 +111,37 @@ function enter_back() {
   }
 }
 
+// Keyboard event listener
+document.addEventListener("keydown", (event: KeyboardEvent) => {
+  const key = event.key;
+
+  // Numbers and decimal point
+  if (/^[0-9.]$/.test(key)) {
+    enter_number(key);
+    event.preventDefault();
+  }
+  // Operators
+  else if (["+", "-", "*", "/", "(", ")", "^"].includes(key)) {
+    enter_operator(key);
+    event.preventDefault();
+  }
+  // Enter or equals
+  else if (key === "Enter" || key === "=") {
+    enter_equals();
+    event.preventDefault();
+  }
+  // Backspace
+  else if (key === "Backspace") {
+    enter_back();
+    event.preventDefault();
+  }
+  // Delete or Escape for clear
+  else if (key === "Delete" || key === "Escape") {
+    enter_clear();
+    event.preventDefault();
+  }
+});
+
 // Expose functions to global scope for onclick handlers
 (window as any).enter_number = enter_number;
 (window as any).enter_operator = enter_operator;
