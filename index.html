@@ -8,10 +8,9 @@
     </head>
     <body>
         <script type="module" src="./src/main.ts"></script>
-        <div id="calculator-container">
+        <main id="calculator-container">
             <h1 id="display">0</h1>
             <section id="calculator">
-                <!-- Row 1: Parentheses -->
                 <button
                     class="calculator-button operator"
                     data-key="("
@@ -28,7 +27,6 @@
                 </button>
                 <div class="title-text">Online<br />Calculator</div>
 
-                <!-- Row 2: 7 8 9 DEL CLEAR -->
                 <button
                     class="calculator-button"
                     data-key="7"
@@ -62,10 +60,9 @@
                     data-key="Escape"
                     onclick="enter_clear()"
                 >
-                    CLEAR
+                    C
                 </button>
 
-                <!-- Row 3: 4 5 6 * / -->
                 <button
                     class="calculator-button"
                     data-key="4"
@@ -102,7 +99,6 @@
                     &divide;
                 </button>
 
-                <!-- Row 4: 1 2 3 + - -->
                 <button
                     class="calculator-button"
                     data-key="1"
@@ -139,7 +135,6 @@
                     &minus;
                 </button>
 
-                <!-- Row 5: 0 . ^ = -->
                 <button
                     class="calculator-button"
                     data-key="0"
@@ -169,6 +164,6 @@
                     =
                 </button>
             </section>
-        </div>
+        </main>
     </body>
 </html>

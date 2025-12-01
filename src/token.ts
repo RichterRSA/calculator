@@ -62,6 +62,10 @@ export class MinusToken extends OperatorToken {
   evaluate(a: number, b: number): number {
     return a - b;
   }
+
+  toString(): string {
+    return "&minus;";
+  }
 }
 
 export class MultiplyToken extends OperatorToken {
@@ -72,6 +76,10 @@ export class MultiplyToken extends OperatorToken {
   evaluate(a: number, b: number): number {
     return a * b;
   }
+
+  toString(): string {
+    return "&times;";
+  }
 }
 
 export class DivideToken extends OperatorToken {
@@ -81,6 +89,10 @@ export class DivideToken extends OperatorToken {
 
   evaluate(a: number, b: number): number {
     return a / b;
+  }
+
+  toString(): string {
+    return "&divide;";
   }
 }
 

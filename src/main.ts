@@ -127,7 +127,7 @@ function update_display() {
   text += input;
   if (text.length === 0) text = "0";
   if (display) {
-    display.innerText = text;
+    display.innerHTML = text;
   }
 }
 
