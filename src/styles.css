@@ -1,0 +1,30 @@
+#calculator {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    align-items: center;
+    background-color: grey;
+    padding: 0.5rem;
+    row-gap: 0.1rem;
+    column-gap: 0.1rem;
+}
+
+#calculator .calculator-button {
+    color: white;
+    text-align: center;
+    background-color: dodgerblue;
+    margin: 0;
+    user-select: none;
+    padding: 0.8rem 0;
+}
+
+#calculator .equals {
+    color: white;
+    text-align: center;
+    background-color: orange;
+    margin: 0;
+    user-select: none;
+}
+
+#calculator .calculator-button:hover {
+    background-color: orange;
+}

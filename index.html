@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calculator</title>
+        <link rel="stylesheet" href="./src/styles.css" />
+    </head>
+    <body>
+        <script type="module" src="./src/main.ts"></script>
+        <h1 id="display">0.00</h1>
+        <section id="calculator">
+            <p class="calculator-button" onclick="enter_number('7')">7</p>
+            <p class="calculator-button" onclick="enter_number('8')">8</p>
+            <p class="calculator-button" onclick="enter_number('9')">9</p>
+            <p class="calculator-button" onclick="enter_operator('/')">/</p>
+            <p class="calculator-button" onclick="enter_number('4')">4</p>
+            <p class="calculator-button" onclick="enter_number('5')">5</p>
+            <p class="calculator-button" onclick="enter_number('6')">6</p>
+            <p class="calculator-button" onclick="enter_operator('*')">*</p>
+            <p class="calculator-button" onclick="enter_number('1')">1</p>
+            <p class="calculator-button" onclick="enter_number('2')">2</p>
+            <p class="calculator-button" onclick="enter_number('3')">3</p>
+            <p class="calculator-button" onclick="enter_operator('-')">-</p>
+            <p class="calculator-button" onclick="enter_number('0')">0</p>
+            <p class="calculator-button" onclick="enter_number('.')">.</p>
+            <p class="calculator-button equals" onclick="enter_equals()">=</p>
+        </section>
+    </body>
+</html>
