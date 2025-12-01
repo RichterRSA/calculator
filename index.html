@@ -8,29 +8,167 @@
     </head>
     <body>
         <script type="module" src="./src/main.ts"></script>
-        <h1 id="display">0</h1>
-        <section id="calculator">
-            <p class="calculator-button" onclick="enter_operator('(')">(</p>
-            <p class="calculator-button" onclick="enter_operator(')')">)</p>
-            <p class="calculator-button" onclick="enter_operator('^')">^</p>
-            <p class="calculator-button" onclick="enter_operator('/')">/</p>
-            <p class="calculator-button" onclick="enter_number('7')">7</p>
-            <p class="calculator-button" onclick="enter_number('8')">8</p>
-            <p class="calculator-button" onclick="enter_number('9')">9</p>
-            <p class="calculator-button" onclick="enter_operator('*')">*</p>
-            <p class="calculator-button" onclick="enter_number('4')">4</p>
-            <p class="calculator-button" onclick="enter_number('5')">5</p>
-            <p class="calculator-button" onclick="enter_number('6')">6</p>
-            <p class="calculator-button" onclick="enter_operator('-')">-</p>
-            <p class="calculator-button" onclick="enter_number('1')">1</p>
-            <p class="calculator-button" onclick="enter_number('2')">2</p>
-            <p class="calculator-button" onclick="enter_number('3')">3</p>
-            <p class="calculator-button" onclick="enter_operator('+')">+</p>
-            <p class="calculator-button" onclick="enter_number('0')">0</p>
-            <p class="calculator-button" onclick="enter_number('.')">.</p>
-            <p class="calculator-button clear" onclick="enter_clear()">C</p>
-            <p class="calculator-button clear" onclick="enter_back()"><-</p>
-            <p class="calculator-button equals" onclick="enter_equals()">=</p>
-        </section>
+        <div id="calculator-container">
+            <h1 id="display">0</h1>
+            <section id="calculator">
+                <!-- Row 1: Parentheses -->
+                <button
+                    class="calculator-button operator"
+                    data-key="("
+                    onclick="enter_operator('(')"
+                >
+                    (
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key=")"
+                    onclick="enter_operator(')')"
+                >
+                    )
+                </button>
+                <div class="title-text">Online<br />Calculator</div>
+
+                <!-- Row 2: 7 8 9 DEL CLEAR -->
+                <button
+                    class="calculator-button"
+                    data-key="7"
+                    onclick="enter_number('7')"
+                >
+                    7
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="8"
+                    onclick="enter_number('8')"
+                >
+                    8
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="9"
+                    onclick="enter_number('9')"
+                >
+                    9
+                </button>
+                <button
+                    class="calculator-button clear"
+                    data-key="Backspace"
+                    onclick="enter_back()"
+                >
+                    DEL
+                </button>
+                <button
+                    class="calculator-button clear"
+                    data-key="Escape"
+                    onclick="enter_clear()"
+                >
+                    CLEAR
+                </button>
+
+                <!-- Row 3: 4 5 6 * / -->
+                <button
+                    class="calculator-button"
+                    data-key="4"
+                    onclick="enter_number('4')"
+                >
+                    4
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="5"
+                    onclick="enter_number('5')"
+                >
+                    5
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="6"
+                    onclick="enter_number('6')"
+                >
+                    6
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="*"
+                    onclick="enter_operator('*')"
+                >
+                    &times;
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="/"
+                    onclick="enter_operator('/')"
+                >
+                    &divide;
+                </button>
+
+                <!-- Row 4: 1 2 3 + - -->
+                <button
+                    class="calculator-button"
+                    data-key="1"
+                    onclick="enter_number('1')"
+                >
+                    1
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="2"
+                    onclick="enter_number('2')"
+                >
+                    2
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="3"
+                    onclick="enter_number('3')"
+                >
+                    3
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="+"
+                    onclick="enter_operator('+')"
+                >
+                    +
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="-"
+                    onclick="enter_operator('-')"
+                >
+                    &minus;
+                </button>
+
+                <!-- Row 5: 0 . ^ = -->
+                <button
+                    class="calculator-button"
+                    data-key="0"
+                    onclick="enter_number('0')"
+                >
+                    0
+                </button>
+                <button
+                    class="calculator-button"
+                    data-key="."
+                    onclick="enter_number('.')"
+                >
+                    .
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="^"
+                    onclick="enter_operator('^')"
+                >
+                    ^
+                </button>
+                <button
+                    class="calculator-button equals"
+                    data-key="Enter"
+                    onclick="enter_equals()"
+                >
+                    =
+                </button>
+            </section>
+        </div>
     </body>
 </html>

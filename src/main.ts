@@ -18,6 +18,7 @@ var input: string = "";
 function enter_number(key: string) {
   input += key;
   update_display();
+  animateButton(key);
 }
 
 function enter_operator(key: string) {
@@ -62,6 +63,7 @@ function enter_operator(key: string) {
   }
 
   update_display();
+  animateButton(key);
 }
 
 function isUnaryMinus(): boolean {
@@ -114,6 +116,7 @@ function enter_equals() {
   // Reset token list for next calculation
   input = result.toString();
   update_display();
+  animateButton("Enter");
 }
 
 function update_display() {
@@ -133,6 +136,7 @@ function enter_clear() {
   input = "";
   token_list = [];
   update_display();
+  animateButton("Escape");
 }
 
 function enter_back() {
@@ -151,6 +155,24 @@ function enter_back() {
     }
     token_list.pop();
     update_display();
+  }
+  animateButton("Backspace");
+}
+
+function animateButton(key: string) {
+  // Find the button element with the matching data-key attribute
+  const button = document.querySelector(
+    `.calculator-button[data-key="${key}"]`,
+  ) as HTMLElement;
+
+  if (button) {
+    // Add the 'pressed' class
+    button.classList.add("pressed");
+
+    // Remove the class after a short delay
+    setTimeout(() => {
+      button.classList.remove("pressed");
+    }, 100);
   }
 }
 
