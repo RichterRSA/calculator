@@ -21,17 +21,6 @@ function enterNumber(key: string) {
 }
 
 function enterOperator(key: string) {
-  // Special handling for minus sign - check if it's unary (negative) or binary (subtraction)
-  if (key === "-") {
-    const isUnary = isUnaryMinus();
-    if (isUnary) {
-      // Treat as negative sign, add to input
-      input += "-";
-      updateDisplay();
-      return;
-    }
-  }
-
   // if there is a number still in the input, add it
   // to the stack
   cleanInput();
@@ -65,24 +54,6 @@ function enterOperator(key: string) {
   animateButton(key);
 }
 
-function isUnaryMinus(): boolean {
-  if (input.length > 0) {
-    return false;
-  }
-
-  if (tokenList.length === 0) {
-    return true;
-  }
-
-  const lastToken = tokenList[tokenList.length - 1];
-
-  if (lastToken instanceof NumberToken || lastToken instanceof RParenToken) {
-    return false;
-  }
-
-  return true;
-}
-
 function cleanInput() {
   if (input.length > 0) {
     let value = parseFloat(input);
@@ -94,16 +65,11 @@ function cleanInput() {
 function enterEquals() {
   cleanInput();
 
-  console.log("Tokens:");
-  for (let i = 0; i < tokenList.length; i++) {
-    console.log(tokenList[i].toString());
-  }
-
   var result: number = calculate(tokenList);
-  console.log("Result:", result);
 
   // Reset token list for next calculation
   input = result.toString();
+  tokenList = [];
   updateDisplay();
   animateButton("Enter");
 }
@@ -115,6 +81,10 @@ function updateDisplay() {
     text += tokenList[i].toString();
   }
   text += input;
+  if (input === "NaN") {
+    text = "Error";
+    input = "";
+  }
   if (text.length === 0) text = "0";
   if (display) {
     display.innerHTML = text;
