@@ -11,23 +11,23 @@ import {
   Token,
 } from "./token";
 
-var token_list: Token[] = [];
+var tokenList: Token[] = [];
 var input: string = "";
 
-function enter_number(key: string) {
+function enterNumber(key: string) {
   input += key;
-  update_display();
+  updateDisplay();
   animateButton(key);
 }
 
-function enter_operator(key: string) {
+function enterOperator(key: string) {
   // Special handling for minus sign - check if it's unary (negative) or binary (subtraction)
   if (key === "-") {
     const isUnary = isUnaryMinus();
     if (isUnary) {
       // Treat as negative sign, add to input
       input += "-";
-      update_display();
+      updateDisplay();
       return;
     }
   }
@@ -37,92 +37,82 @@ function enter_operator(key: string) {
   cleanInput();
   switch (key) {
     case "+":
-      token_list.push(new PlusToken());
+      tokenList.push(new PlusToken());
       break;
     case "-":
-      token_list.push(new MinusToken());
+      tokenList.push(new MinusToken());
       break;
     case "*":
-      token_list.push(new MultiplyToken());
+      tokenList.push(new MultiplyToken());
       break;
     case "/":
-      token_list.push(new DivideToken());
+      tokenList.push(new DivideToken());
       break;
     case "(":
-      token_list.push(new LParenToken());
+      tokenList.push(new LParenToken());
       break;
     case ")":
-      token_list.push(new RParenToken());
+      tokenList.push(new RParenToken());
       break;
     case "^":
-      token_list.push(new PowerToken());
+      tokenList.push(new PowerToken());
       break;
     default:
       throw new Error(`Invalid operator: ${key}`);
   }
 
-  update_display();
+  updateDisplay();
   animateButton(key);
 }
 
 function isUnaryMinus(): boolean {
-  // Minus is unary if:
-  // 1. At the start (no tokens and no input)
-  // 2. After an operator (except right paren)
-  // 3. After a left paren
-  // 4. Currently typing a number and input is empty or only has minus signs
-
-  // If we're already typing a number, it's not unary
   if (input.length > 0) {
     return false;
   }
 
-  // No tokens yet - it's unary (start of expression)
-  if (token_list.length === 0) {
+  if (tokenList.length === 0) {
     return true;
   }
 
-  const lastToken = token_list[token_list.length - 1];
+  const lastToken = tokenList[tokenList.length - 1];
 
-  // After a number or right paren, it's binary subtraction
   if (lastToken instanceof NumberToken || lastToken instanceof RParenToken) {
     return false;
   }
 
-  // After any other operator or left paren, it's unary
   return true;
 }
 
 function cleanInput() {
   if (input.length > 0) {
     let value = parseFloat(input);
-    token_list.push(new NumberToken(value));
+    tokenList.push(new NumberToken(value));
     input = "";
   }
 }
 
-function enter_equals() {
+function enterEquals() {
   cleanInput();
 
   console.log("Tokens:");
-  for (let i = 0; i < token_list.length; i++) {
-    console.log(token_list[i].toString());
+  for (let i = 0; i < tokenList.length; i++) {
+    console.log(tokenList[i].toString());
   }
 
-  var result: number = calculate(token_list);
+  var result: number = calculate(tokenList);
   console.log("Result:", result);
 
   // Reset token list for next calculation
   input = result.toString();
-  update_display();
+  updateDisplay();
   animateButton("Enter");
 }
 
-function update_display() {
+function updateDisplay() {
   var display = document.getElementById("display");
   var text = "";
-  for (let i = 0; i < token_list.length; i++) {
-    text += token_list[i].toString();
+  for (let i = 0; i < tokenList.length; i++) {
+    text += tokenList[i].toString();
   }
   text += input;
   if (text.length === 0) text = "0";
@@ -131,19 +121,19 @@ function update_display() {
   }
 }
 
-function enter_clear() {
+function enterClear() {
   input = "";
-  token_list = [];
-  update_display();
+  tokenList = [];
+  updateDisplay();
   animateButton("Escape");
 }
 
-function enter_back() {
+function enterBack() {
   if (input.length > 0) {
     input = input.slice(0, -1);
-    update_display();
+    updateDisplay();
   } else {
-    var last = token_list[token_list.length - 1];
+    var last = tokenList[tokenList.length - 1];
     if (last instanceof NumberToken) {
       if (isNaN(last.value)) {
         input = "";
@@ -152,8 +142,8 @@ function enter_back() {
         input = input.slice(0, -1);
       }
     }
-    token_list.pop();
-    update_display();
+    tokenList.pop();
+    updateDisplay();
   }
   animateButton("Backspace");
 }
@@ -181,34 +171,34 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
   // Numbers and decimal point
   if (/^[0-9.]$/.test(key)) {
-    enter_number(key);
+    enterNumber(key);
     event.preventDefault();
   }
   // Operators
   else if (["+", "-", "*", "/", "(", ")", "^"].includes(key)) {
-    enter_operator(key);
+    enterOperator(key);
     event.preventDefault();
   }
   // Enter or equals
   else if (key === "Enter" || key === "=") {
-    enter_equals();
+    enterEquals();
     event.preventDefault();
   }
   // Backspace
   else if (key === "Backspace") {
-    enter_back();
+    enterBack();
     event.preventDefault();
   }
   // Delete or Escape for clear
   else if (key === "Delete" || key === "Escape") {
-    enter_clear();
+    enterClear();
     event.preventDefault();
   }
 });
 
 // Expose functions to global scope for onclick handlers
-(window as any).enter_number = enter_number;
-(window as any).enter_operator = enter_operator;
-(window as any).enter_equals = enter_equals;
-(window as any).enter_clear = enter_clear;
-(window as any).enter_back = enter_back;
+(window as any).enterNumber = enterNumber;
+(window as any).enterOperator = enterOperator;
+(window as any).enterEquals = enterEquals;
+(window as any).enterClear = enterClear;
+(window as any).enterBack = enterBack;
