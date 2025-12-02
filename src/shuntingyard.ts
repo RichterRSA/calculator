@@ -2,12 +2,39 @@ import {
   FunctionToken,
   LParenToken,
   MinusToken,
+  MultiplyToken,
   NumberToken,
   OperatorToken,
   PlusToken,
   RParenToken,
   type Token,
 } from "./token";
+
+function insertImplicitMultiplication(tokens: Token[]): Token[] {
+  const result: Token[] = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    result.push(token);
+
+    if (i < tokens.length - 1) {
+      const next = tokens[i + 1];
+
+      const shouldInsertMultiply =
+        (token instanceof NumberToken && next instanceof LParenToken) ||
+        (token instanceof NumberToken && next instanceof FunctionToken) ||
+        (token instanceof RParenToken && next instanceof LParenToken) ||
+        (token instanceof RParenToken && next instanceof NumberToken) ||
+        (token instanceof RParenToken && next instanceof FunctionToken);
+
+      if (shouldInsertMultiply) {
+        result.push(new MultiplyToken());
+      }
+    }
+  }
+
+  return result;
+}
 
 function validateSyntax(tokens: Token[]): string | null {
   let parenCount = 0;
@@ -97,6 +124,7 @@ function preprocessMinusSigns(tokens: Token[]): Token[] {
 }
 
 export function process(tokens: Token[]) {
+  tokens = insertImplicitMultiplication(tokens);
   tokens = preprocessMinusSigns(tokens);
 
   var outputQueue: Token[] = [];
