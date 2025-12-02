@@ -7,40 +7,40 @@ import {
 } from "./token";
 
 export function process(tokens: Token[]) {
-  var output_queue: Token[] = [];
-  var operator_stack: OperatorToken[] = [];
+  var outputQueue: Token[] = [];
+  var operatorStack: OperatorToken[] = [];
   while (tokens.length > 0) {
     const token = tokens.shift();
     if (token instanceof NumberToken) {
-      output_queue.push(token);
+      outputQueue.push(token);
     } else if (token instanceof LParenToken) {
-      operator_stack.push(token);
+      operatorStack.push(token);
     } else if (token instanceof RParenToken) {
       while (
-        operator_stack.length > 0 &&
-        !(operator_stack[operator_stack.length - 1] instanceof LParenToken)
+        operatorStack.length > 0 &&
+        !(operatorStack[operatorStack.length - 1] instanceof LParenToken)
       ) {
-        output_queue.push(operator_stack.pop()!);
+        outputQueue.push(operatorStack.pop()!);
       }
-      operator_stack.pop();
+      operatorStack.pop();
     } else if (token instanceof OperatorToken) {
       while (
-        operator_stack.length > 0 &&
-        operator_stack[operator_stack.length - 1].precedence >= token.precedence
+        operatorStack.length > 0 &&
+        operatorStack[operatorStack.length - 1].precedence >= token.precedence
       ) {
-        output_queue.push(operator_stack.pop()!);
+        outputQueue.push(operatorStack.pop()!);
       }
-      operator_stack.push(token);
+      operatorStack.push(token);
     }
   }
 
   // move remaining operators to the output queue
-  while (operator_stack.length > 0) {
-    let op = operator_stack.pop();
-    output_queue.push(op!);
+  while (operatorStack.length > 0) {
+    let op = operatorStack.pop();
+    outputQueue.push(op!);
   }
 
-  return output_queue;
+  return outputQueue;
 }
 
 export function calculate(tokens: Token[]): number {
