@@ -28,6 +28,38 @@
                 <div class="title-text">Online<br />Calculator</div>
 
                 <button
+                    class="calculator-button operator"
+                    onclick="enterFunction('sqrt')"
+                >
+                    √
+                </button>
+                <button
+                    class="calculator-button operator"
+                    onclick="enterFunction('sin')"
+                >
+                    sin
+                </button>
+                <button
+                    class="calculator-button operator"
+                    onclick="enterFunction('cos')"
+                >
+                    cos
+                </button>
+                <button
+                    class="calculator-button operator"
+                    onclick="enterFunction('tan')"
+                >
+                    tan
+                </button>
+                <button
+                    class="calculator-button operator"
+                    data-key="^"
+                    onclick="enterOperator('^')"
+                >
+                    ^
+                </button>
+
+                <button
                     class="calculator-button"
                     data-key="7"
                     onclick="enterNumber('7')"
@@ -148,13 +180,6 @@
                     onclick="enterNumber('.')"
                 >
                     .
-                </button>
-                <button
-                    class="calculator-button operator"
-                    data-key="^"
-                    onclick="enterOperator('^')"
-                >
-                    ^
                 </button>
                 <button
                     class="calculator-button equals"

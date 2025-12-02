@@ -1,4 +1,8 @@
-export class Token {}
+export class Token {
+  isFunction(): boolean {
+    return false;
+  }
+}
 
 export class NumberToken extends Token {
   value: number;
@@ -103,5 +107,66 @@ export class PowerToken extends OperatorToken {
 
   evaluate(a: number, b: number): number {
     return Math.pow(a, b);
+  }
+}
+
+export class FunctionToken extends Token {
+  name: string;
+
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
+  isFunction(): boolean {
+    return true;
+  }
+
+  evaluateUnary(_a: number): number {
+    throw new Error("Not implemented");
+  }
+
+  toString(): string {
+    return this.name;
+  }
+}
+
+export class SqrtToken extends FunctionToken {
+  constructor() {
+    super("√");
+  }
+
+  evaluateUnary(a: number): number {
+    return Math.sqrt(a);
+  }
+}
+
+export class SinToken extends FunctionToken {
+  constructor() {
+    super("sin");
+  }
+
+  evaluateUnary(a: number): number {
+    return Math.sin(a);
+  }
+}
+
+export class CosToken extends FunctionToken {
+  constructor() {
+    super("cos");
+  }
+
+  evaluateUnary(a: number): number {
+    return Math.cos(a);
+  }
+}
+
+export class TanToken extends FunctionToken {
+  constructor() {
+    super("tan");
+  }
+
+  evaluateUnary(a: number): number {
+    return Math.tan(a);
   }
 }

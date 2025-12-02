@@ -1,5 +1,6 @@
 import { calculate } from "./shuntingyard";
 import {
+  CosToken,
   DivideToken,
   LParenToken,
   MinusToken,
@@ -8,6 +9,9 @@ import {
   PlusToken,
   PowerToken,
   RParenToken,
+  SinToken,
+  SqrtToken,
+  TanToken,
   Token,
 } from "./token";
 
@@ -52,6 +56,27 @@ function enterOperator(key: string) {
 
   updateDisplay();
   animateButton(key);
+}
+
+function enterFunction(func: string) {
+  cleanInput();
+  switch (func) {
+    case "sqrt":
+      tokenList.push(new SqrtToken());
+      break;
+    case "sin":
+      tokenList.push(new SinToken());
+      break;
+    case "cos":
+      tokenList.push(new CosToken());
+      break;
+    case "tan":
+      tokenList.push(new TanToken());
+      break;
+    default:
+      throw new Error(`Invalid function: ${func}`);
+  }
+  updateDisplay();
 }
 
 function cleanInput() {
@@ -102,7 +127,7 @@ function enterBack() {
   if (input.length > 0) {
     input = input.slice(0, -1);
     updateDisplay();
-  } else {
+  } else if (tokenList.length > 0) {
     var last = tokenList[tokenList.length - 1];
     if (last instanceof NumberToken) {
       if (isNaN(last.value)) {
@@ -111,8 +136,12 @@ function enterBack() {
         input = last.value.toString();
         input = input.slice(0, -1);
       }
+      tokenList.pop();
+    } else if (last.isFunction()) {
+      tokenList.pop();
+    } else {
+      tokenList.pop();
     }
-    tokenList.pop();
     updateDisplay();
   }
   animateButton("Backspace");
@@ -166,9 +195,9 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   }
 });
 
-// Expose functions to global scope for onclick handlers
 (window as any).enterNumber = enterNumber;
 (window as any).enterOperator = enterOperator;
+(window as any).enterFunction = enterFunction;
 (window as any).enterEquals = enterEquals;
 (window as any).enterClear = enterClear;
 (window as any).enterBack = enterBack;
