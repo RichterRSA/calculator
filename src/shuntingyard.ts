@@ -16,43 +16,32 @@ function preprocessMinusSigns(tokens: Token[]): Token[] {
     const token = tokens[i];
 
     if (token instanceof MinusToken) {
-      // Count consecutive minus signs
       let minusCount = 0;
       let j = i;
       while (j < tokens.length && tokens[j] instanceof MinusToken) {
         minusCount++;
         j++;
       }
-
-      // Check if this is before a number (unary case)
       const isBeforeNumber =
         j < tokens.length && tokens[j] instanceof NumberToken;
 
-      // Check if this is at the start or after an operator/left paren (unary context)
       const isUnaryContext =
         result.length === 0 ||
         result[result.length - 1] instanceof OperatorToken ||
         result[result.length - 1] instanceof LParenToken;
 
       if (isBeforeNumber && isUnaryContext) {
-        // Unary minus before a number: negate the number
-        // Even number of minuses = positive, odd = negative
         const number = tokens[j] as NumberToken;
         if (minusCount % 2 === 1) {
-          // Odd number of minuses: make number negative
           result.push(new NumberToken(-number.value));
         } else {
-          // Even number of minuses: keep number positive
           result.push(new NumberToken(number.value));
         }
-        i = j + 1; // Skip past the number too
+        i = j + 1;
       } else {
-        // Binary context or no number following
         if (minusCount % 2 === 1) {
-          // Odd number of minuses: keep one minus
           result.push(new MinusToken());
         } else {
-          // Even number of minuses: replace with plus
           result.push(new PlusToken());
         }
         i = j;
@@ -67,7 +56,6 @@ function preprocessMinusSigns(tokens: Token[]): Token[] {
 }
 
 export function process(tokens: Token[]) {
-  // Preprocess to handle multiple minus signs
   tokens = preprocessMinusSigns(tokens);
 
   var outputQueue: Token[] = [];
