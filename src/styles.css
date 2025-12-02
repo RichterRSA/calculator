@@ -100,7 +100,7 @@ body {
 
 /* Equals button - spans 2 columns */
 .calculator-button.equals {
-    grid-column: span 2;
+    grid-column: span 3;
     background-color: var(--color-button-equals);
     box-shadow: 0 6px 0
         rgb(

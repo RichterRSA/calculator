@@ -9,6 +9,46 @@ import {
   type Token,
 } from "./token";
 
+function validateSyntax(tokens: Token[]): string | null {
+  let parenCount = 0;
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+
+    if (token instanceof LParenToken) {
+      parenCount++;
+    } else if (token instanceof RParenToken) {
+      parenCount--;
+      if (parenCount < 0) {
+        return "Syntax Error";
+      }
+    }
+
+    if (
+      token instanceof OperatorToken &&
+      !(token instanceof LParenToken) &&
+      !(token instanceof RParenToken) &&
+      !(token instanceof MinusToken)
+    ) {
+      const next = i + 1 < tokens.length ? tokens[i + 1] : null;
+      if (
+        next instanceof OperatorToken &&
+        !(next instanceof LParenToken) &&
+        !(next instanceof RParenToken) &&
+        !(next instanceof MinusToken)
+      ) {
+        return "Syntax Error";
+      }
+    }
+  }
+
+  if (parenCount !== 0) {
+    return "Syntax Error";
+  }
+
+  return null;
+}
+
 function preprocessMinusSigns(tokens: Token[]): Token[] {
   const result: Token[] = [];
   let i = 0;
@@ -98,7 +138,12 @@ export function process(tokens: Token[]) {
   return outputQueue;
 }
 
-export function calculate(tokens: Token[]): number {
+export function calculate(tokens: Token[]): number | string {
+  const syntaxError = validateSyntax(tokens);
+  if (syntaxError) {
+    return syntaxError;
+  }
+
   var output_queue = process(tokens);
   var stack: number[] = [];
   while (output_queue.length > 0) {

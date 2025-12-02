@@ -76,6 +76,7 @@ function enterFunction(func: string) {
     default:
       throw new Error(`Invalid function: ${func}`);
   }
+  tokenList.push(new LParenToken());
   updateDisplay();
 }
 
@@ -90,10 +91,13 @@ function cleanInput() {
 function enterEquals() {
   cleanInput();
 
-  var result: number = calculate(tokenList);
+  var result: number | string = calculate(tokenList);
 
-  // Reset token list for next calculation
-  input = result.toString();
+  if (typeof result === "string") {
+    input = result;
+  } else {
+    input = result.toString();
+  }
   tokenList = [];
   updateDisplay();
   animateButton("Enter");
@@ -108,6 +112,10 @@ function updateDisplay() {
   text += input;
   if (input === "NaN") {
     text = "Error";
+    input = "";
+  }
+  if (input === "Syntax Error") {
+    text = "Syntax Error";
     input = "";
   }
   if (text.length === 0) text = "0";
@@ -137,7 +145,12 @@ function enterBack() {
         input = input.slice(0, -1);
       }
       tokenList.pop();
-    } else if (last.isFunction()) {
+    } else if (
+      last instanceof LParenToken &&
+      tokenList.length >= 2 &&
+      tokenList[tokenList.length - 2].isFunction()
+    ) {
+      tokenList.pop();
       tokenList.pop();
     } else {
       tokenList.pop();
